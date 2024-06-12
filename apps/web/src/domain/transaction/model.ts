@@ -4,7 +4,12 @@ export interface Transaction {
   id?: number
   amount: number
   description: string
-  date?: string
-  tags_id?: string[]
+  date: Date
+  tags_id?: number[]
   type: TransactionType
+}
+
+export interface TotalAmount {
+  totalInput: number
+  totalOutput: number
 }

@@ -8,17 +8,14 @@ import {
   TableCell,
   Table,
 } from '@/components/ui/table'
-import fetchTransactionData from '../fetchTransactionData'
-import { useQuery } from '@tanstack/react-query'
-import { Transaction } from '@/domain/transaction/model'
+import { Skeleton } from '@/components/ui/skeleton'
+import formatDate from '@/lib/formatDate'
+import useTransactionData from '@/hooks/useTransaction'
+import TagFilter from '@/components/tag-filter'
 
 function TableDashboard() {
-  const { data } = useQuery<Transaction[]>({
-    queryKey: ['transaction-data'],
-    queryFn: fetchTransactionData,
-  })
-
-  console.log(data)
+  const { query } = useTransactionData()
+  const { data, isLoading } = query
 
   return (
     <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
@@ -32,6 +29,25 @@ function TableDashboard() {
           </TableRow>
         </TableHeader>
         <TableBody>
+          {isLoading &&
+            Array.from({ length: 5 }).map((_, i) => {
+              return (
+                <TableRow key={i}>
+                  <TableCell className="font-medium">
+                    <Skeleton className="w-[100px] h-[20px] rounded-sm" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="w-[100px] h-[20px] rounded-sm" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="w-[100px] h-[20px] rounded-sm" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="w-[100px] h-[20px] rounded-sm" />
+                  </TableCell>
+                </TableRow>
+              )
+            })}
           {data?.map((t) => {
             return (
               <TableRow key={t.id}>
@@ -42,8 +58,11 @@ function TableDashboard() {
                   })}
                 </TableCell>
                 <TableCell>{t.description}</TableCell>
-                <TableCell>{t.date?.normalize('NFC')}</TableCell>
-                <TableCell>tag</TableCell>
+                <TableCell>{formatDate(t.date)}</TableCell>
+                <TableCell className="flex gap-2">
+                  {t.tags_id?.length === 0 && '-'}
+                  {t.tags_id?.map((t) => <TagFilter id={t} />)}
+                </TableCell>
               </TableRow>
             )
           })}

@@ -8,3 +8,10 @@ export interface Transaction {
 }
 
 export type TransactionType = "INPUT" | "OUTPUT"
+
+export interface TransactionFilters {
+  date?: string
+  description?: string
+  tags_id?: string
+  type?: string
+}

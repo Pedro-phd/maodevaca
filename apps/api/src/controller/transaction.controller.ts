@@ -1,13 +1,16 @@
 import { FastifyInstance } from "fastify";
 import newTransactionSchema from "../domain/transaction/schema";
 import { TransactionService } from "../domain/transaction/transaction.service";
+import { TransactionFilters } from "../domain/transaction/model";
 
 export async function TransactionController(server: FastifyInstance) {
 
   const transactionService = new TransactionService()
 
   server.get('/all', async (req, res) => {
-    const response = await transactionService.findAll();
+    const params = req.query as TransactionFilters
+
+    const response = await transactionService.findAll(params);
 
     if(response === null) {
       return res.code(204).send([])
@@ -50,5 +53,11 @@ export async function TransactionController(server: FastifyInstance) {
     }
 
     return res.code(201).send(insertData)
+  })
+
+  server.get('/total', async (req, res) => {
+    const data = await transactionService.totalValues()
+
+    res.code(200).send(data)
   })
 }

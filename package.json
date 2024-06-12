@@ -13,6 +13,7 @@
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@rocketseat/eslint-config": "^2.2.2",
+    "@types/react-input-mask": "^3.0.5",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "postcss": "^8.4.38",
@@ -31,8 +32,11 @@
   ],
   "dependencies": {
     "@fastify/cors": "^9.0.1",
+    "@react-input/mask": "^1.2.5",
     "@tanstack/react-query": "^5.40.1",
+    "date-fns": "^3.6.0",
     "lucide-react": "^0.390.0",
+    "react-input-mask": "^2.0.4",
     "zod": "^3.23.8"
   }
 }
